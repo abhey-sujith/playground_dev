@@ -4,6 +4,7 @@ import { Physics, useCylinder, usePlane,useBox } from '@react-three/cannon'
 import { OrbitControls, Environment ,Stars,Billboard,MapControls,useHelper} from '@react-three/drei'
 import {SpotLightHelper,SpotLight,primitive} from 'three'
 import { Vector3 } from 'three';
+import { useControls,Leva  } from 'leva'
 
 import './App.css';
 import Vehicle from './Vehicle'
@@ -31,7 +32,7 @@ function range4(start, end) {
 }
 
 let world = []
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 500; i++) {
   var x=(Math.random() * 1600 - 800)
   var y=(Math.random() * 1600 - 800)
   world.push(
@@ -66,7 +67,18 @@ function Camera(props) {
 }
 
 
+function MyComponent(props) {
+  const { MapControl,FollowVehicle } = useControls({ MapControl: true, FollowVehicle:false })
+  
+  if(FollowVehicle)
+  return <Camera position={[0, 10, -15]} target={props.vehicle} cameraDummy={props.cameraDummy}/> 
 
+
+  if(MapControl)
+      return  <MapControls />
+  
+  return  <OrbitControls minPolarAngle={0} maxPolarAngle={Math.PI /2.2} />
+}
 
 function App() {
   const vehicle = useRef(null);
@@ -77,6 +89,7 @@ function App() {
   const x2axis = [...range4(-4,4)];
   return (
     <>
+      <Leva oneLineLabels collapsed/>
       <Canvas dpr={[1, 1.5]} shadows camera={{ position: [0, 20, -40], fov: 50 ,target:vehicle}}
       >
         <fog attach="fog" args={['#FD7F20', 0.1, 400]} />
@@ -88,7 +101,10 @@ function App() {
         <directionalLight position={[1, 1, 1]} color="#FD8F42" />
         <directionalLight position={[-1, -1, -1]} color="#FD8F42" />
         <ambientLight color="#FD8F42" />
-       
+
+
+
+        <MyComponent vehicle={vehicle} cameraDummy={cameraDummy}/>
         <Physics broadphase="SAP" contactEquationRelaxation={4} friction={1e-3} allowSleep>
          
           <Plane rotation={[-Math.PI / 2, 0, 0]} userData={{ id: 'floor' }} />
@@ -142,7 +158,6 @@ function App() {
         </Suspense>
             {/* <Camera position={[0, 10, -15]} target={vehicle} cameraDummy={cameraDummy}/> */}
 
-        <MapControls />
         {/* <OrbitControls /> */}
       </Canvas>
       <div style={{ position: 'absolute', top: 30, left: 40 }}>
