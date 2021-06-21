@@ -1,11 +1,11 @@
 import { useRef ,forwardRef} from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useRaycastVehicle } from '@react-three/cannon'
-import { useControls } from './utils/useControls'
-import Beetle from './Beetle'
+import { useControls } from '../utils/useControls'
+import Car from './Car'
 import Wheel from './Wheel'
 
-const Vehicle = forwardRef(({ radius = 0.7, width = 1.2, height = -0.04, front = 1.3, back = -1.15, steer = 0.75, force = 2000, maxBrake = 1e5, ...props}, ref) => {
+const Vehicle = forwardRef(({ radius = 0.7, width = 1.2, height = -0.04, front = 1.3, back = -1.15, steer = 0.75, force = 2000, maxBrake = 1e5,children, ...props}, ref) => {
 
   const wheel1 = useRef()
   const wheel2 = useRef()
@@ -57,8 +57,10 @@ const Vehicle = forwardRef(({ radius = 0.7, width = 1.2, height = -0.04, front =
   })
 
   return (
-    <group ref={vehicle} position={[0, -0.4, 0]}>
-      <Beetle  ref={ref} rotation={props.rotation} position={props.position} angularVelocity={props.angularVelocity} childc={props.children}/>
+    <group ref={vehicle} position={[0, -0.2, 0]}>
+      <Car  ref={ref} rotation={props.rotation} position={props.position} angularVelocity={props.angularVelocity} >
+        {children}
+      </Car>
       <Wheel ref={wheel1} radius={radius} leftSide />
       <Wheel ref={wheel2} radius={radius} />
       <Wheel ref={wheel3} radius={radius} leftSide />
