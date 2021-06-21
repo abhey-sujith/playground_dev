@@ -58,7 +58,7 @@ function Camera(props) {
       const temp = new Vector3().setFromMatrixPosition(
         props.cameraDummy.current.matrixWorld
       );
-      ref.current.position.lerp(temp, 0.08);
+      ref.current.position.lerp(temp, 0.05);
       ref.current.lookAt(props.target.current.position);
     }
   });
@@ -77,7 +77,7 @@ function App() {
   const x2axis = [...range4(-4,4)];
   return (
     <>
-      <Canvas dpr={[1, 1.5]} shadows //camera={{ position: [-20, 5, -5], fov: 50 ,target:vehicle}}
+      <Canvas dpr={[1, 1.5]} shadows camera={{ position: [0, 20, -40], fov: 50 ,target:vehicle}}
       >
         <fog attach="fog" args={['#FD7F20', 0.1, 400]} />
         {/* <fog attach="fog" args={['#ff6161', 100, 140]} /> */}
@@ -119,12 +119,12 @@ function App() {
         <H_Text position={[30,5,40]}/>
         <E_Text position={[25,5,45]}/>
         <Y_Text position={[20,5,50]}/>
-        <S_Text position={[45,5,100]}/>
-        <U_Text position={[45,10,100]}/>
-        <J_Text position={[45,15,100]}/>
-        <I_Text position={[45,20,100]}/>
-        <T_Text position={[45,25,100]}/>
-        <H_White_Text position={[45,30,100]}/>
+        <S_Text position={[15,5,55]}/>
+        <U_Text position={[10,5,60]}/>
+        <J_Text position={[5,5,65]}/>
+        <I_Text position={[0,5,70]}/>
+        <T_Text position={[-5,5,75]}/>
+        <H_White_Text position={[-10,5,80]}/>
 
         <Vehicle ref={vehicle} position={[-10, 1, 5]} rotation={[0, -Math.PI *1.8, 0]} angularVelocity={[0, 0.5, 0]} wheelRadius={0.3} >
           <object3D ref={cameraDummy} name="CameraDummy" position={[0, 11, -30]}  />
@@ -140,9 +140,9 @@ function App() {
         <Suspense fallback={null}>
           <Environment preset="night" />
         </Suspense>
-            <Camera position={[0, 10, -15]} target={vehicle} cameraDummy={cameraDummy}/>
+            {/* <Camera position={[0, 10, -15]} target={vehicle} cameraDummy={cameraDummy}/> */}
 
-        {/* <MapControls /> */}
+        <MapControls />
         {/* <OrbitControls /> */}
       </Canvas>
       <div style={{ position: 'absolute', top: 30, left: 40 }}>
