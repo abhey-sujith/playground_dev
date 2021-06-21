@@ -14,7 +14,7 @@ const Model= forwardRef(( props, ref) => {
         geometry={nodes.Text.geometry}
         material={materials['Material.001']}
         position={[0, 0.0001, 0]}
-        rotation={[Math.PI / 2, 0,  Math.PI]}
+        rotation={[Math.PI / 2, 0,  Math.PI-0.5]}
         scale={[6,6,6]}
       />
     </group>

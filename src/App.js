@@ -19,6 +19,7 @@ import U from './U'
 import J from './J'
 import I from './I'
 import T from './T'
+import HWhite from './H_white'
 import Ball from './Ball'
 
 function range(start, end) {
@@ -30,7 +31,7 @@ function range4(start, end) {
 }
 
 let world = []
-for (let i = 0; i < 500; i++) {
+for (let i = 0; i < 50; i++) {
   var x=(Math.random() * 1600 - 800)
   var y=(Math.random() * 1600 - 800)
   world.push(
@@ -57,7 +58,7 @@ function Camera(props) {
       const temp = new Vector3().setFromMatrixPosition(
         props.cameraDummy.current.matrixWorld
       );
-      ref.current.position.lerp(temp, 0.05);
+      ref.current.position.lerp(temp, 0.08);
       ref.current.lookAt(props.target.current.position);
     }
   });
@@ -118,15 +119,15 @@ function App() {
         <H_Text position={[30,5,40]}/>
         <E_Text position={[25,5,45]}/>
         <Y_Text position={[20,5,50]}/>
-        <S_Text position={[15,5,55]}/>
-        <U_Text position={[15,10,55]}/>
-        <J_Text position={[15,15,55]}/>
-        <I_Text position={[15,20,55]}/>
-        <T_Text position={[15,25,55]}/>
-        <H_Text position={[15,30,55]}/>
+        <S_Text position={[45,5,100]}/>
+        <U_Text position={[45,10,100]}/>
+        <J_Text position={[45,15,100]}/>
+        <I_Text position={[45,20,100]}/>
+        <T_Text position={[45,25,100]}/>
+        <H_White_Text position={[45,30,100]}/>
 
         <Vehicle ref={vehicle} position={[-10, 1, 5]} rotation={[0, -Math.PI *1.8, 0]} angularVelocity={[0, 0.5, 0]} wheelRadius={0.3} >
-          <object3D ref={cameraDummy} name="CameraDummy" position={[0, 15, -30]}  />
+          <object3D ref={cameraDummy} name="CameraDummy" position={[0, 11, -30]}  />
             </Vehicle>
 
 
@@ -273,6 +274,12 @@ function T_Text({args = [2, 4, 2],position=[0,5,10], ...props }) {
   const [ref] = useBox(() => ({ mass: 0.2 ,args,position,...props}))
   return (
     <T ref={ref} />
+  )
+}
+function H_White_Text({args = [2, 4, 2],position=[0,5,10], ...props }) {
+  const [ref] = useBox(() => ({ mass: 0.2 ,args,position,...props}))
+  return (
+    <HWhite ref={ref} />
   )
 }
 export default App;

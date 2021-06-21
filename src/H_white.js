@@ -7,9 +7,9 @@ import { useGLTF } from '@react-three/drei'
 import { forwardRef } from 'react'
 
 const Model= forwardRef(( props, ref) => {
-  const { nodes, materials } = useGLTF('/S.glb')
+  const { nodes, materials } = useGLTF('/H_white.glb')
   return (
-    <group ref={ref} {...props} dispose={null}  position={props.position} >
+    <group ref={ref} {...props} dispose={null} position={props.position} >
       <mesh
         geometry={nodes.Text.geometry}
         material={materials['Material.001']}
@@ -21,6 +21,6 @@ const Model= forwardRef(( props, ref) => {
   )
 })
 
-useGLTF.preload('/S.glb')
+useGLTF.preload('/H_white.glb')
 
 export default Model
