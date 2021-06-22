@@ -1,7 +1,8 @@
 import React, { Suspense ,useRef,useEffect} from 'react'
 import { Canvas,useThree,useFrame } from '@react-three/fiber'
 import { Physics, usePlane,useBox } from '@react-three/cannon'
-import { OrbitControls ,MapControls} from '@react-three/drei'
+import { OrbitControls ,MapControls,Loader} from '@react-three/drei'
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 // import {SpotLightHelper,SpotLight} from 'three'
 import { Vector3 } from 'three';
 import { useControls,Leva  } from 'leva'
@@ -75,7 +76,7 @@ function LevaComponent(props) {
   const { MapControl,FollowVehicle } = useControls({ MapControl: true, FollowVehicle:false })
   
   if(FollowVehicle)
-  return <Camera position={[0, 10, -15]} fov={20} target={props.vehicle} cameraDummy={props.cameraDummy}/> 
+  return <Camera position={[0, 10, -15]} fov={50} target={props.vehicle} cameraDummy={props.cameraDummy}/> 
 
 
   if(MapControl)
@@ -84,11 +85,20 @@ function LevaComponent(props) {
   return  <OrbitControls minPolarAngle={0} maxPolarAngle={Math.PI /2.2} />
 }
 
-function hideLoadingDiv() {
-  setTimeout(function(){
-    document.getElementById('LOADING').classList.add('hidden');
-  },10000)
+function CheckViewportSize(props) {
+  const {size} = useThree()
+  
+  if(size.width<440){
+    document.getElementById('INSTRUCTION').classList.add('hidden');
+    return null
+  }
+  if(document.getElementById('INSTRUCTION').classList[1]==="hidden"){
+    document.getElementById('INSTRUCTION').classList.remove('hidden');
+  }
+  return null
 }
+
+
 function App() {
 
   const vehicle = useRef(null);
@@ -99,11 +109,10 @@ function App() {
   const Boxx1axis = [...range(-17,17)];
   const Boxx2axis = [...range4(-4,4)];
 
-  hideLoadingDiv()
   return (
     <>
       <Leva oneLineLabels collapsed/>
-      <Canvas dpr={[1, 1.5]} shadows camera={{ position: [0, 20, -40], fov: 50 }}
+      <Canvas dpr={[1, 1.5]} shadows camera={{ position: [0, 20, -40], fov: 50 ,minPolarAngle:0 ,maxPolarAngle:Math.PI /2.2}}
       >
         <Suspense fallback={ null}>
 
@@ -114,6 +123,7 @@ function App() {
         <ambientLight color="#FD8F42" />
 
         <LevaComponent vehicle={vehicle} cameraDummy={cameraDummy}/>
+        <CheckViewportSize/>
         
         <Physics broadphase="SAP" contactEquationRelaxation={4} friction={1e-3} allowSleep>
 
@@ -169,17 +179,31 @@ function App() {
 
         </Physics>
         </Suspense>
-
+        <EffectComposer>
+        <DepthOfField focusDistance={0} focalLength={20} bokehScale={2} height={480} />
+        <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.9} height={300} />
+        <Noise opacity={0.02} />
+        <Vignette eskil={true} offset={0.1} darkness={25} />
+      </EffectComposer>
       </Canvas>
-      <div class="LOADING" id="LOADING" name="LOADING" style={{ position: 'absolute', top:15, left: 40 }}>  <pre>Loading in under ~15 sec  </pre></div>
-      <div style={{ position: 'absolute', top: 30, left: 40 }}>
+      <Loader
+         containerStyles={{background:'#FD8F42'}} // Flex layout styles
+        // innerStyles={} // Inner container styles
+        // barStyles={...bar} // Loading-bar styles
+        // dataStyles={...data} // Text styles
+        dataInterpolation={(p) => `Loading ${p.toFixed(2)}%`} // Text
+        // initialState={(active) => active} // Initial black out state
+      />
+
+      <div class="INSTRUCTION" id="INSTRUCTION" name="INSTRUCTION" style={{ position: 'absolute', top: 30, left: 40 }}>
         <pre>
-          Must run fullscreen!
+          Version 1.02
           <br />
           WASD to drive, space to brake
-          <br />R to reset
+          <br />R to reset 
         </pre>
       </div>
+      {/* <div class="LOADING" id="LOADING" name="LOADING" style={{ position: 'absolute', top:75, left: 40 }}>  <pre>Loading {progress}%  </pre></div> */}
     </>
   )
 }
@@ -332,3 +356,20 @@ export default App;
 //     </mesh>
 //   );
 // }
+
+
+// function hideLoadingDiv(progressvalue) {
+  //   // setTimeout(function(){
+  //   //   document.getElementById('LOADING').classList.add('hidden');
+  //   // },10000)
+  //   if(progressvalue===100){
+  //      setTimeout(function(){
+  //     document.getElementById('LOADING').classList.add('hidden');
+  //   },1000)
+  //   }
+  // }
+  
+  // function Loaderr() {
+  //   const { active, progress, errors, item, loaded, total } = useProgress()
+  //   return progress
+  // }
