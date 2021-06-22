@@ -18,3 +18,7 @@ body {
   color: white;
   font-family: 'Inter var', sans-serif;
 }
+
+.hidden {
+  display: none;
+}

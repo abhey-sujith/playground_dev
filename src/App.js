@@ -84,6 +84,11 @@ function LevaComponent(props) {
   return  <OrbitControls minPolarAngle={0} maxPolarAngle={Math.PI /2.2} />
 }
 
+function hideLoadingDiv() {
+  setTimeout(function(){
+    document.getElementById('LOADING').classList.add('hidden');
+  },10000)
+}
 function App() {
 
   const vehicle = useRef(null);
@@ -94,6 +99,7 @@ function App() {
   const Boxx1axis = [...range(-17,17)];
   const Boxx2axis = [...range4(-4,4)];
 
+  hideLoadingDiv()
   return (
     <>
       <Leva oneLineLabels collapsed/>
@@ -165,6 +171,7 @@ function App() {
         </Suspense>
 
       </Canvas>
+      <div class="LOADING" id="LOADING" name="LOADING" style={{ position: 'absolute', top:15, left: 40 }}>  <pre>Loading in under ~15 sec  </pre></div>
       <div style={{ position: 'absolute', top: 30, left: 40 }}>
         <pre>
           Must run fullscreen!
