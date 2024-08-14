@@ -2,9 +2,9 @@
 
 In the project directory, you can run:
 
-### nvm i 16
-### nvm use 16
-### npm update
+### `nvm i 16`
+### `nvm use 16`
+### `npm update`
 ### `npm i`
 ### `npm start`
 
