@@ -22,3 +22,40 @@ body {
 .hidden {
   display: none;
 }
+
+/* styles.css or styles.scss */
+.aws-btn {
+  --button-default-height: 51px;
+  --button-default-font-size: 14px;
+  --button-default-border-radius: 2px;
+  --button-horizontal-padding: 20px;
+  --button-raise-level: 4px;
+  --button-hover-pressure: 1;
+  --transform-speed: .175s;
+  --button-primary-color: #1e88e5;
+  --button-primary-color-dark: #1360a4;
+  --button-primary-color-light: #ffffff;
+  --button-primary-color-hover: #187bd1;
+  --button-primary-border: none;
+  
+  /* Button styles */
+  display: inline-block;
+  height: var(--button-default-height);
+  font-size: var(--button-default-font-size);
+  border-radius: var(--button-default-border-radius);
+  padding: 0 var(--button-horizontal-padding);
+  background-color: var(--button-primary-color);
+  border: var(--button-primary-border);
+  color: var(--button-primary-color-light);
+  transition: background-color var(--transform-speed), transform var(--transform-speed);
+}
+
+.aws-btn:hover {
+  background-color: var(--button-primary-color-hover);
+}
+
+.aws-btn:active {
+  transform: translateY(var(--button-raise-level));
+  background-color: var(--button-primary-color-dark);
+}
+

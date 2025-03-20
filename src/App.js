@@ -1,4 +1,4 @@
-import React, { Suspense ,useRef,useEffect} from 'react'
+import React, { Suspense ,useRef,useEffect,useState} from 'react'
 import { Canvas,useThree,useFrame } from '@react-three/fiber'
 import { Physics, usePlane,useBox } from '@react-three/cannon'
 import { OrbitControls ,MapControls,Loader} from '@react-three/drei'
@@ -6,10 +6,13 @@ import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-thr
 // import {SpotLightHelper,SpotLight} from 'three'
 import { Vector3 } from 'three';
 import { useControls,Leva  } from 'leva'
+import {
+  AwesomeButton
+} from 'react-awesome-button';
 
 //Vehicle
 import Vehicle from './items/Vehicle'
-import Ball from './items/Ball'
+import Ball from './items/Ball' 
 
 //Blender Items
 import Footballground from './items/Footballground'
@@ -98,21 +101,35 @@ function CheckViewportSize(props) {
   return null
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isMobile;
+}
+
 
 function App() {
 
   const vehicle = useRef(null);
   const cameraDummy = useRef(null);
+  const isMobile = useIsMobile();
 
   const Boxz1axis = [...range4(0,9)];
   const Boxz2axis = [...range4(0,9)];
   const Boxx1axis = [...range(-17,17)];
   const Boxx2axis = [...range4(-4,4)];
 
+  
   return (
     <>
-      <Leva oneLineLabels collapsed/>
-      <Canvas dpr={[1, 1.5]} shadows camera={{ position: [0, 20, -40], fov: 50 ,minPolarAngle:0 ,maxPolarAngle:Math.PI /2.2}}
+      <Leva oneLineLabels collapsed/>  
+      <Canvas dpr={[1, 1.5]} shadows camera={{ position: isMobile ? [-5, 30, -40] : [0, 20, -40], fov: isMobile ? 90 : 50, minPolarAngle:0 ,maxPolarAngle:Math.PI /2.2}}
       >
         <Suspense fallback={ null}>
 
@@ -186,6 +203,69 @@ function App() {
         <Vignette eskil={true} offset={0.1} darkness={25} />
       </EffectComposer>
       </Canvas>
+
+
+      <div style={{ position: 'absolute', bottom: 30, right: 30, display: 'grid', gridTemplateColumns: '50px 50px 50px', gap: '2px' }}>
+
+      <AwesomeButton  className='aws-btn' style={{
+      gridColumn: '2 / 3',
+      width: 50,
+      height: 50,
+      backgroundColor: '#FF8C00', // Orange color
+      color: 'white',
+      fontWeight: 'bold',
+      textShadow: '1px 1px 2px black',
+      userSelect: 'none' 
+    }} >W</AwesomeButton>
+
+<AwesomeButton  className='aws-btn' style={{
+      gridColumn: '1 / 2',
+      width: 50,
+      height: 50,
+      backgroundColor: '#FF8C00', // Orange color
+      color: 'white',
+      fontWeight: 'bold',
+      textShadow: '1px 1px 2px black',
+      userSelect: 'none' 
+    }} >A</AwesomeButton>
+    <AwesomeButton  className='aws-btn' style={{
+      gridColumn: '2 / 3',
+      width: 50,
+      height: 50,
+      backgroundColor: '#FF8C00', // Orange color
+      color: 'white',
+      fontWeight: 'bold',
+      textShadow: '1px 1px 2px black',
+      userSelect: 'none' 
+    }} >S</AwesomeButton>
+    <AwesomeButton  className='aws-btn' style={{
+      gridColumn: '3 / 4',
+      width: 50,
+      height: 50,
+      backgroundColor: '#FF8C00', // Orange color
+      color: 'white',
+      fontWeight: 'bold',
+      textShadow: '1px 1px 2px black',
+      userSelect: 'none' 
+    }} >D</AwesomeButton>
+
+</div>
+
+
+    {/*  <button
+        id = "brakeButton"
+        style={{ width: 50, height: 50, marginTop: 10 }}
+      >
+        Brake
+      </button>
+      <button
+        id = "resetButton"
+        style={{ width: 50, height: 50, marginTop: 10 }}
+      >
+        Reset
+      </button> */}
+
+
       <Loader
          containerStyles={{background:'#FD8F42'}} // Flex layout styles
         // innerStyles={} // Inner container styles
@@ -373,3 +453,4 @@ export default App;
   //   const { active, progress, errors, item, loaded, total } = useProgress()
   //   return progress
   // }
+
