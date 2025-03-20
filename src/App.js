@@ -205,7 +205,7 @@ function App() {
       </Canvas>
 
 
-      <div style={{ position: 'absolute', bottom: 30, right: 30, display: 'grid', gridTemplateColumns: '50px 50px 50px', gap: '2px' }}>
+      {isMobile ?<div style={{ position: 'absolute', bottom: 30, right: 30, display: 'grid', gridTemplateColumns: '50px 50px 50px', gap: '2px' }}>
 
       <AwesomeButton  className='aws-btn' style={{
       gridColumn: '2 / 3',
@@ -249,7 +249,7 @@ function App() {
       userSelect: 'none' 
     }} >D</AwesomeButton>
 
-</div>
+</div>:<></>}
 
 
     {/*  <button
